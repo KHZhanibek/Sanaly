@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     public boolean existsByEmail(String email);
     public AppUser getAppUserById(Long appUserId);
+    public AppUser getByEmail(String email);
+//    dolphin
 }
