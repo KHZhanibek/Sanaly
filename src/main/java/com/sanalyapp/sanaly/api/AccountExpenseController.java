@@ -38,13 +38,15 @@ public class AccountExpenseController {
         }
     }
 
-    @PostMapping
-    public String saveExpense(@RequestParam(value = "categoryName", required = false) String categoryTitle,
-                              @RequestBody Expense expense){
+//    @PostMapping
+//    @ResponseBody
+//    public String saveExpense(@RequestBody(name = "category") String category){
 //                              @PathVariable(value = "user_id") Long userId,
 //                              @PathVariable(value = "account_id") Long accountId){
 //        System.out.println(reqBody.entrySet());
-        return "Parameters are " + categoryTitle + " " + expense.toString();
+//        @PathVariable(value = "account_id") Long accountId,
+//                              @RequestBody Expense expense
+//        return "Category: " + category;
 //        String categoryTitle = reqBody.get("category_name");
 //        Expense expense = new Expense(null, reqBody.get("title"), Double.parseDouble(reqBody.get("cash")), null, null);
 //        System.out.println(categoryTitle + " " + expense.toString());
@@ -55,7 +57,7 @@ public class AccountExpenseController {
 //        catch (Error e){
 //            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 //        }
-    }
+//    }
 
     @PutMapping(value = "{/id}")
     public ResponseEntity<?> updateExpense(@PathVariable(value = "account_id") Long accountId,
