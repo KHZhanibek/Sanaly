@@ -36,8 +36,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     authenticationRequest.getEmail(),
                     authenticationRequest.getPassword()
             );
-
-            return authenticationManager.authenticate(authentication);
+            Authentication authenticate = authenticationManager.authenticate(authentication);
+            return authenticate;
         }
         catch (IOException e){
             throw new RuntimeException(e);
@@ -46,17 +46,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        System.out.println("----------------assigning JWT TOKENNN-------------------");
+            String key = "wedm3jj34hf7348fh3uh4u349rh244245fh45fh4957fh245hf7459";
 
-        String key = "wedm3jj34hf7348fh3uh4u349rh244245fh45fh4957fh245hf7459";
+            String token = Jwts.builder()
+                    .setSubject(authResult.getName())
+                    .claim("authorities", authResult.getAuthorities())
+                    .setIssuedAt(new Date())
+                    .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
+                    .signWith(Keys.hmacShaKeyFor(key.getBytes()))
+                    .compact();
 
-        String token = Jwts.builder()
-                .setSubject(authResult.getName())
-                .claim("authorities", authResult.getAuthorities())
-                .setIssuedAt(new Date())
-                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
-                .signWith(Keys.hmacShaKeyFor(key.getBytes()))
-                .compact();
-
-        response.addHeader("Authorization", "Barer " + token);
+            response.addHeader("Authorization", "Barer " + token);
     }
 }

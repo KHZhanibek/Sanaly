@@ -3,6 +3,7 @@ package com.sanalyapp.sanaly.security;
 import com.sanalyapp.sanaly.jwt.JwtAuthenticationFilter;
 import com.sanalyapp.sanaly.jwt.JwtAuthenticationRequest;
 import com.sanalyapp.sanaly.jwt.JwtTokenVerifier;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
+@AllArgsConstructor
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
@@ -41,15 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers(POST, "/login").permitAll()
-                .antMatchers("/api/v1/users").permitAll()
-                .anyRequest()
-//                .permitAll();
-                .authenticated();
-        http
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilterAfter(new JwtTokenVerifier(), JwtAuthenticationFilter.class);
+                .addFilterAfter(new JwtTokenVerifier(), JwtAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers( "/login", "/api/v1/users").permitAll()
+//                .antMatchers().permitAll()
+                .anyRequest().authenticated();
+                
+//
 
     }
 
