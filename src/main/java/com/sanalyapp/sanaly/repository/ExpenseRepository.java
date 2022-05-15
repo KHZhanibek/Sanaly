@@ -10,6 +10,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
 //  Account and Expense
     List<Expense> getAllByAccountId(Long accountId);
+    List<Expense> findAllByAccount_Id(Long accountId);
     Expense getByAccountId(Long accountId);
     void deleteByAccountIdAndId(Long accountId, Long id);
 

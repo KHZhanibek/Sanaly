@@ -19,8 +19,13 @@ public class ExpenseService {
     AccountRepository accountRepository;
     ExpenseRepository expenseRepository;
 
-    public List<Expense> getAllAccountExpenses(Long accountId){
-        return expenseRepository.getAllByAccountId(accountId);
+    public List<Expense> getAllAccountExpenses(Long accountId) throws NullPointerException{
+//        List<Expense>expenses = expenseRepository.getAllByAccountId(accountId);
+        List<Expense>expenses = expenseRepository.findAllByAccount_Id(accountId);
+
+        if(expenses.isEmpty() || expenses == null)
+            throw new NullPointerException("No Expenses you idiot");
+        return expenses;
     }
 
     public Expense getAccountExpense(Long id){
