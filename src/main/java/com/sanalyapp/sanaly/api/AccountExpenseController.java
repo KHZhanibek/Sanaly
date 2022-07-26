@@ -38,26 +38,23 @@ public class AccountExpenseController {
         }
     }
 
-//    @PostMapping
-//    @ResponseBody
-//    public String saveExpense(@RequestBody(name = "category") String category){
-//                              @PathVariable(value = "user_id") Long userId,
-//                              @PathVariable(value = "account_id") Long accountId){
+    @PostMapping
+    public ResponseEntity<?> saveExpense(@PathVariable(value = "account_id") Long accountId,
+                                              @PathVariable(value = "user_id") Long userId,
+                                              @RequestBody Map<String, String> reqBody){
 //        System.out.println(reqBody.entrySet());
-//        @PathVariable(value = "account_id") Long accountId,
-//                              @RequestBody Expense expense
-//        return "Category: " + category;
-//        String categoryTitle = reqBody.get("category_name");
-//        Expense expense = new Expense(null, reqBody.get("title"), Double.parseDouble(reqBody.get("cash")), null, null);
-//        System.out.println(categoryTitle + " " + expense.toString());
+//        return "Category: " ;
+        String categoryTitle = reqBody.get("category_name");
+        Expense expense = new Expense(null, reqBody.get("title"), Double.parseDouble(reqBody.get("cash")), null, null);
+        System.out.println(categoryTitle + " " + expense.toString());
 //        return new ResponseEntity<String>(categoryTitle + " " + expense.toString(), HttpStatus.OK);
-//        try {
-//            return new ResponseEntity<String>(expenseService.saveExpense(userId, accountId, categoryTitle, expense), HttpStatus.OK);
-//        }
-//        catch (Error e){
-//            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+        try {
+            return new ResponseEntity<String>(expenseService.saveExpense(userId, accountId, categoryTitle, expense), HttpStatus.OK);
+        }
+        catch (Error e){
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PutMapping(value = "{/id}")
     public ResponseEntity<?> updateExpense(@PathVariable(value = "account_id") Long accountId,

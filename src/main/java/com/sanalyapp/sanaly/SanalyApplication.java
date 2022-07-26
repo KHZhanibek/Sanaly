@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
+
 @EnableSwagger2
 public class SanalyApplication {
 
