@@ -3,6 +3,11 @@ package com.sanalyapp.sanaly.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,8 +25,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+@PropertySource(ignoreResourceNotFound = true, value = "classpath:com/sanalyapp/sanaly/jwt/jwt.properties")
+
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+    @Value( "${secret_key}" )
+    private String secret_key;
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -47,8 +56,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         System.out.println("----------------assigning JWT TOKENNN-------------------");
-            String key = "wedm3jj34hf7348fh3uh4u349rh244245fh45fh4957fh245hf7459";
-
+            String key = secret_key;
+        System.out.println("Secret Key from JWT.PROPPERTIES:" + secret_key);
             String token = Jwts.builder()
                     .setSubject(authResult.getName())
                     .claim("authorities", authResult.getAuthorities())
