@@ -21,3 +21,10 @@ Run the project through the IDE and head out to http://localhost:8080
 
 Documentation in http://localhost:8080/swagger-ui.html
 
+
+## Further development strategy:
+1. Complete Testing(Unit and integration testing)
+2. Deploy to AWS or Google Cloud
+3. Using docker (analyze is it ok with Spring Projects)
+4. Solve the Bug of Swagger and Security
+
