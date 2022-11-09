@@ -5,8 +5,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,21 +21,28 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
-@PropertySource(ignoreResourceNotFound = true, value = "classpath:com/sanalyapp/sanaly/jwt/jwt.properties")
+import java.util.Properties;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
-    @Value( "${secret_key}" )
-    private String secret_key;
+
+    Properties jwtProperties;
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
+        jwtProperties = new Properties();
+        System.out.println(System.getProperty("user.dir"));
+        try (InputStream input = new FileInputStream(System.getProperty("user.dir"))) {
+            jwtProperties.load("jwt.properties");
+        }
+
     }
 
     @Override
@@ -56,7 +65,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         System.out.println("----------------assigning JWT TOKENNN-------------------");
-            String key = secret_key;
+        String secret_key = "wedm3jj34hf7348fh3uh4u349rh244245fh45fh4957fh245hf7459";
+        String key = secret_key;
         System.out.println("Secret Key from JWT.PROPPERTIES:" + secret_key);
             String token = Jwts.builder()
                     .setSubject(authResult.getName())
@@ -68,4 +78,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             response.addHeader("Authorization", "Barer " + token);
     }
+
 }

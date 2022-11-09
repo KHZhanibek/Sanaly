@@ -14,6 +14,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SanalyApplication {
 
 	public static void main(String[] args) {
+		System.out.println(System.getProperty("user.dir"));
+
 		SpringApplication.run(SanalyApplication.class, args);
 	}
 
